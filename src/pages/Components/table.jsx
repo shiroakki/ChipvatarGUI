@@ -9,6 +9,7 @@ import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
 import { Typography } from "@material-ui/core";
+import ParamPopup from "./ParamPopup";
 
 const useStyles = makeStyles({
   table: {
@@ -32,7 +33,7 @@ const lowerrows = [
   { name: "MSMC", Speed: 50, Bandwidth: 30, Latency: 20 },
   { name: "OCMC", Speed: 50, Bandwidth: 95, Latency: 20 },
   {
-    name: "Communication between Cores",
+    name: "Interruption Handling Capability",
     Speed: 50,
     Bandwidth: 30,
     Latency: 20,
@@ -50,12 +51,13 @@ export default function BasicTable() {
   return (
     <div>
       <div>
-
         <TableContainer
           component={Paper}
-          style={{ position: "relative", 
-          // top: 30, right: 0, 
-          width: "100%" }}
+          style={{
+            position: "relative",
+            // top: 30, right: 0,
+            width: "100%",
+          }}
         >
           <Table className={classes.table} aria-label="simple table">
             <TableHead>
@@ -84,6 +86,10 @@ export default function BasicTable() {
                   <TableCell align="right">{row.Acore}</TableCell>
                   <TableCell align="right">{row.Rcore}</TableCell>
                   <TableCell align="right">{row.Mcore}</TableCell>
+
+                  <TableCell align="right">
+                    <ParamPopup></ParamPopup>
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -94,9 +100,11 @@ export default function BasicTable() {
       <div>
         <TableContainer
           component={Paper}
-          style={{ position: "relative",
-          //  top: 135, right: 0, 
-           width: "100%"}}
+          style={{
+            position: "relative",
+            //  top: 135, right: 0,
+            width: "100%",
+          }}
         >
           <Table className={classes.table} aria-label="simple table">
             <TableHead>
@@ -117,7 +125,7 @@ export default function BasicTable() {
               {lowerrows.map((row) => (
                 <TableRow key={row.name}>
                   <TableCell component="th" scope="row">
-                    {row.name === "Communication between Cores" && (
+                    {row.name === "Interruption Handling Capability" && (
                       <FiberManualRecordIcon style={{ color: "#95B0FD" }} />
                     )}
                     {row.name === "Communication via Ethernet" && (
@@ -149,6 +157,9 @@ export default function BasicTable() {
                     }
                   >
                     {row.Latency}
+                  </TableCell>
+                  <TableCell align="right">
+                    <ParamPopup></ParamPopup>
                   </TableCell>
                 </TableRow>
               ))}
