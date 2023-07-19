@@ -1,0 +1,8 @@
+{
+    "Kernel_Processes":50,
+    "User_Processes":19,
+    "Idle":10,
+    "IO_wait":8,
+    "Hardware_Interrupts":6,
+    "Software_Interrupts":6
+}

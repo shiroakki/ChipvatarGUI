@@ -3,24 +3,51 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip } from "recharts";
 import Grid from "@mui/material/Grid";
 import "@fontsource/roboto/300.css";
 import Typography from "@mui/material/Typography";
+import { useState } from 'react'
+import axios from 'axios'
 
-const DDR_data = [
+const Ddata = [
   { name: "Overall Capacity", value: 50 },
-  { name: "Capacity Available", value: 20 },
-  { name: "Cache", value: 30 },
+  { name: "Capacity Available", value: 50 },
+  { name: "Cache", value: 50 },
   // Add more DDR_data objects as needed
 ];
 
-const SRAM_data = [
-  { name: "Overall Capacity", value: 60 },
-  { name: "Capacity Available", value: 40 },
+const Sdata = [
+  { name: "Overall Capacity", value: 50 },
+  { name: "Capacity Available", value: 50 },
 ];
 
-const CPU_temp = [{ name: "CPU Temperatue", value: 60 }];
+const Ctemp = [{ name: "CPU Temperatue", value: 50 }];
 
-export default function HorizontalBarCharts() {
+export default function HorizontalBarCharts(){
+  const [DDRdata, setDDRdata] = useState(Ddata);
+  const [SRAMdata, setSRAMdata] = useState(Sdata);
+  const [CPUtemp, setCPUtemp] = useState(Ctemp);
+
+function getData() {
+  axios({
+    method: "GET",
+    url: "http://127.0.0.1:5000/RealTimeStatus",
+  })
+  .then((response) => {
+    const res = response.data;
+    setDDRdata(res.DDR_data);
+    setSRAMdata(res.SRAM_data);
+    setCPUtemp(res.CPU_temp);
+  })
+  .catch((error) => {
+    if (error.response) {
+      console.log(error.response);
+      console.log(error.response.status);
+      console.log(error.response.headers);
+    }
+  });
+}
+
   return (
     <div>
+      <button onClick={getData}>Refresh</button>
       <Grid container>
         <Grid item xs={3}>
           <Typography style={{ fontWeight: "bold", background: "#FFF1C0" }}>
@@ -29,13 +56,13 @@ export default function HorizontalBarCharts() {
           <table>
             <tbody>
               <tr style={{ height: 35 }}>
-                <td>{DDR_data[0].name}</td>
+                <td>{DDRdata[0].name}</td>
               </tr>
               <tr style={{ height: 35 }}>
-                <td>{DDR_data[1].name}</td>
+                <td>{DDRdata[1].name}</td>
               </tr>
               <tr style={{ height: 35 }}>
-                <td>{DDR_data[2].name}</td>
+                <td>{DDRdata[2].name}</td>
               </tr>
             </tbody>
           </table>
@@ -44,7 +71,7 @@ export default function HorizontalBarCharts() {
           <BarChart
             width={400}
             height={130}
-            data={DDR_data}
+            data={DDRdata}
             layout="vertical"
             barCategoryGap={15}
           >
@@ -80,10 +107,10 @@ export default function HorizontalBarCharts() {
           <table>
             <tbody>
               <tr style={{ height: 35 }}>
-                <td>{SRAM_data[0].name}</td>
+                <td>{SRAMdata[0].name}</td>
               </tr>
               <tr style={{ height: 35 }}>
-                <td>{SRAM_data[1].name}</td>
+                <td>{SRAMdata[1].name}</td>
               </tr>
             </tbody>
           </table>
@@ -92,7 +119,7 @@ export default function HorizontalBarCharts() {
           <BarChart
             width={400}
             height={90}
-            data={SRAM_data}
+            data={SRAMdata}
             layout="vertical"
             barCategoryGap={15}
           >
@@ -131,7 +158,7 @@ export default function HorizontalBarCharts() {
           <BarChart
             width={400}
             height={50}
-            data={CPU_temp}
+            data={CPUtemp}
             layout="vertical"
             barCategoryGap={15}
           >

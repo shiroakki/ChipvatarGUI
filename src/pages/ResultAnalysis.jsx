@@ -41,13 +41,13 @@ export default function ResultAnalysis() {
       <Grid item xs={2}>
         <NavBar></NavBar>
       </Grid>
-      <Grid item xs={7}>
+      <Grid item xs={6}>
         <Stack direction={"column"}>
           {/* <Card variant="outlined">{card}</Card> */}
           <Card variant="outlined">{card2}</Card>
         </Stack>
       </Grid>
-      <Grid item xs={7}>
+      <Grid item xs={8}>
         <Card variant="outlined">{card3}</Card>
       </Grid>
     </Grid>

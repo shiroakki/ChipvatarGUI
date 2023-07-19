@@ -1,27 +1,5 @@
-// import * as React from "react";
-// // export default function Home() {
-// //   return (
-    
-      
-    
-    
-// //   );
-// // }
-// import MemoryOutlinedIcon from "@mui/icons-material/MemoryOutlined";
-// import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
-// import Box from "@mui/material/Box";
-// import List from "@mui/material/List";
-// import ListItemButton from "@mui/material/ListItemButton";
-// import ListItemIcon from "@mui/material/ListItemIcon";
-// import ListItemText from "@mui/material/ListItemText";
-// import Divider from "@mui/material/Divider";
-// import InboxIcon from "@mui/icons-material/Inbox";
-// import DraftsIcon from "@mui/icons-material/Drafts";
 
-// export default function Home() {
-
-// }
-
+import { useState } from "react";
 import * as React from "react";
 import MemoryOutlinedIcon from "@mui/icons-material/MemoryOutlined";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
@@ -57,6 +35,24 @@ const theme = createTheme({
 });
 
 export default function Home() {
+
+const [selectedOption, setSelectedOption] = useState(null);
+
+const sendDataToFlask = () => {
+  if (selectedOption) {
+    const message = selectedOption.label; // Get the label of the selected option
+    axios
+      .post("http://127.0.0.1:5000/chip", { data: message })
+      .then((response) => {
+        console.log(response.data);
+        // Handle the response data from Flask
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  }
+};
+
   return (
     <Box
       sx={{
@@ -100,8 +96,6 @@ export default function Home() {
         <br></br>
         <br></br>
         <br></br>
-        
-
 
         <Box
           sx={{
@@ -121,6 +115,8 @@ export default function Home() {
                 options={dropDownLists}
                 sx={{ width: 600 }}
                 size="small"
+                value={selectedOption}
+                onChange={(event, value) => setSelectedOption(value)}
                 renderInput={(params) => (
                   <TextField
                     {...params}
@@ -134,7 +130,14 @@ export default function Home() {
 
           <ThemeProvider theme={theme}>
             <Box>
-              <Button color="secondary" variant="contained" size="medium" href="/ra">
+              <Button
+                color="secondary"
+                variant="contained"
+                size="medium"
+                href="/ra"
+                onClick={sendDataToFlask}
+                disabled={!selectedOption}
+              >
                 START
               </Button>
             </Box>

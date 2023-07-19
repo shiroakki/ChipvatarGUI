@@ -1,13 +1,14 @@
 {
   "name": "chakra-ui-crash-course",
   "private": true,
+  "proxy": "http://localhost:5000/", 
   "version": "0.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "start-backend": "cd backend && env/bin/flask run --no-debugger"
+    "start-backend": "cd backend && flask run --no-debugger"
   },
   "dependencies": {
     "@emotion/react": "^11.11.1",
@@ -20,8 +21,8 @@
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.6.1",
     "rechart": "^0.0.1",
-    "recharts": "^2.7.2"
-
+    "recharts": "^2.7.2",
+    "axios": "^1.4.0"
   },
   "devDependencies": {
     "@types/react": "^18.0.26",

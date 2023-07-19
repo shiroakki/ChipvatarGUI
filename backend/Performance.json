@@ -1,0 +1,14 @@
+{
+    "higherrows": [
+      { "name": "Arithmetic Performance", "Acore": 50, "Rcore": 30, "Mcore": 20 }
+    ],
+    "lowerrows": [
+        { "name": "Memory Access Speed", "Speed": 50, "Bandwidth": 30, "Latency": 20 },
+        { "name": "DDR", "Speed": 95, "Bandwidth": 30, "Latency": 20 },
+        { "name": "SRAM", "Speed": 96, "Bandwidth": 30, "Latency": 95 },
+        { "name": "MSMC", "Speed": 50, "Bandwidth": 30, "Latency": 20 },
+        { "name": "OCMC", "Speed": 50, "Bandwidth": 95, "Latency": 20 },
+        { "name": "Communication between Cores", "Speed": 50, "Bandwidth": 30, "Latency": 20 },
+        { "name": "Communication via Ethernet", "Speed": 50, "Bandwidth": 30, "Latency": 20 }
+      ]
+  }

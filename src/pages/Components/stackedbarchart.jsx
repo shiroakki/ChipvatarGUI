@@ -2,6 +2,9 @@ import React from 'react';
 import { BarChart, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Bar } from 'recharts';
 import { Typography, makeStyles, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@material-ui/core';
 import Grid from "@mui/material/Grid";
+import axios from 'axios';
+import {useState} from 'react';
+
 
     const useStyles = makeStyles({
         table: {
@@ -9,15 +12,15 @@ import Grid from "@mui/material/Grid";
         },
     });
       
-    const CPUUsageData1 = [
-        { name: 'Kernel processes', value: 50 },
-        { name: 'User processes', value: 19 },
-        { name: 'Idle', value: 10 },
+    const CPUData1 = [
+        { name: 'Kernel processes', value: 0 },
+        { name: 'User processes', value: 0 },
+        { name: 'Idle', value: 0 },
     ];
-    const CPUUsageData2 = [
-        { name: 'I/O wait', value: 8 },
-        { name: 'Hardware interrupts', value: 6 },
-        { name: 'Software interrupts', value: 6 },
+    const CPUData2 = [
+        { name: 'I/O wait', value: 0 },
+        { name: 'Hardware interrupts', value: 0 },
+        { name: 'Software interrupts', value: 0 },
     ];
 
     const CPU_Usage_Data = [
@@ -28,8 +31,43 @@ import Grid from "@mui/material/Grid";
 
 export default function StackedBarCharts(){
     const classes = useStyles();
+        const [CPUUsageData1, setCPUUsageData1] = useState(CPUData1);
+        const [CPUUsageData2, setCPUUsageData2] = useState(CPUData2);
+
+
+    function getData() {
+      axios({
+        method: "GET",
+        url: "http://127.0.0.1:5000/CPUUsageData",
+      })
+        .then((response) => {
+          const res = response.data;
+          setCPUUsageData1([
+            { name: "Kernel processes", value: res.Kernel_Processes },
+            { name: "User processes", value: res.User_Processes },
+            { name: "Idle", value: res.Idle },
+          ]);
+
+          setCPUUsageData2([
+            { name: "I/O wait", value: res.IO_wait },
+            { name: "Hardware interrupts", value: res.Hardware_Interrupts },
+            { name: "Software interrupts", value: res.Software_Interrupts },
+          ]);
+        })
+        .catch((error) => {
+          if (error.response) {
+            console.log(error.response);
+            console.log(error.response.status);
+            console.log(error.response.headers);
+          }
+        });
+    }
+
+        
     return (
       <div>
+        <button onClick={getData}>Refresh</button>
+
         <Typography
           variant="h6"
           className={classes.title}

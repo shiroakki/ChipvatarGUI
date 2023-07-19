@@ -10,10 +10,17 @@ import Paper from "@material-ui/core/Paper";
 import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
 import { Typography } from "@material-ui/core";
 import ParamPopup from "./ParamPopup";
+import { Button } from "@mui/material";
+import axios from "axios";
+import { useState } from "react";
+
 
 const useStyles = makeStyles({
   table: {
-    minWidth: 550,
+    minWidth: 450,
+    "& .MuiTableCell-root": {
+      padding: "10px 8px 10px 8px", // <-- arbitrary value
+    },
   },
   yellowBackground: {
     backgroundColor: "yellow",
@@ -26,31 +33,52 @@ const useStyles = makeStyles({
   },
 });
 
-const lowerrows = [
-  { name: "Memory Access Speed", Speed: 50, Bandwidth: 30, Latency: 20 },
-  { name: "DDR", Speed: 95, Bandwidth: 30, Latency: 20 },
-  { name: "SRAM", Speed: 96, Bandwidth: 30, Latency: 95 },
-  { name: "MSMC", Speed: 50, Bandwidth: 30, Latency: 20 },
-  { name: "OCMC", Speed: 50, Bandwidth: 95, Latency: 20 },
+const lrs = [
+  { name: "Memory Access Speed", Speed: 0, Bandwidth: 0, Latency: 0 },
+  { name: "DDR", Speed: 0, Bandwidth: 0, Latency: 0 },
+  { name: "SRAM", Speed: 0, Bandwidth: 0, Latency: 0 },
+  { name: "MSMC", Speed: 0, Bandwidth: 0, Latency: 0 },
+  { name: "OCMC", Speed: 0, Bandwidth: 0, Latency: 0 },
   {
-    name: "Interruption Handling Capability",
-    Speed: 50,
-    Bandwidth: 30,
-    Latency: 20,
+    name: "Communication between Cores",
+    Speed: 0,
+    Bandwidth: 0,
+    Latency: 0,
   },
-  { name: "Communication via Ethernet", Speed: 50, Bandwidth: 30, Latency: 20 },
+  { name: "Communication via Ethernet", Speed: 0, Bandwidth: 0, Latency: 0 },
 ];
 
-const higherrows = [
-  { name: "Arithmetic Performance", Acore: 50, Rcore: 30, Mcore: 20 },
-];
+const hrs = [{ name: "Arithmetic Performance", Acore: 0, Rcore: 0, Mcore: 0 }];
 
 export default function BasicTable() {
   const classes = useStyles();
+  const [lowerrows, setLowerRows] = useState(lrs);
+  const [higherrows, setHigherRows] = useState(hrs);
 
+  function getData() {
+    axios({
+      method: "GET",
+      url: "http://127.0.0.1:5000/Performance",
+    })
+      .then((response) => {
+        const res = response.data;
+        setLowerRows(res.lowerrows);
+        setHigherRows(res.higherrows);
+        // setData2();
+      })
+      .catch((error) => {
+        if (error.response) {
+          console.log(error.response);
+          console.log(error.response.status);
+          console.log(error.response.headers);
+        }
+      });
+  }
   return (
     <div>
       <div>
+        <button onClick={getData}>Refresh</button>
+
         <TableContainer
           component={Paper}
           style={{
@@ -86,9 +114,8 @@ export default function BasicTable() {
                   <TableCell align="right">{row.Acore}</TableCell>
                   <TableCell align="right">{row.Rcore}</TableCell>
                   <TableCell align="right">{row.Mcore}</TableCell>
-
                   <TableCell align="right">
-                    <ParamPopup></ParamPopup>
+                    <Button variant="outlined">Start</Button>
                   </TableCell>
                 </TableRow>
               ))}
@@ -160,6 +187,9 @@ export default function BasicTable() {
                   </TableCell>
                   <TableCell align="right">
                     <ParamPopup></ParamPopup>
+                  </TableCell>
+                  <TableCell align="right">
+                    <Button variant="outlined">Start</Button>
                   </TableCell>
                 </TableRow>
               ))}

@@ -1,0 +1,14 @@
+{
+    "DDR_data": [
+      { "name": "Overall Capacity", "value": 50 },
+      { "name": "Capacity Available", "value": 20 },
+      { "name": "Cache", "value": 30 }
+    ],
+    "SRAM_data": [
+      { "name": "Overall Capacity", "value": 60 },
+      { "name": "Capacity Available", "value": 40 }
+    ],
+    "CPU_temp": [
+      { "name": "CPU Temperatue", "value": 60 }
+    ]
+  }
